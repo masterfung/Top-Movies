@@ -11,7 +11,7 @@ import Foundation
 class ViewModel {
     
     let urlString = "http://itunes.apple.com/rss/topmovies/limit=25/json"
-    var titles = [String()]
+    var titles = [String]()
     
     func fetchItems(success: () -> ()) {
         let url = NSURL(string: urlString)
@@ -23,8 +23,10 @@ class ViewModel {
                 println("json error: \(unwrappedError)")
             } else {
                 self.titles = json.valueForKeyPath("feed.entry.im:name.label") as [String] //not the most optimized version
+                success()
             }
         }
+        task.resume()
     }
     
     func numberOfSections() -> Int {
